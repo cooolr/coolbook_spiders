@@ -14,9 +14,24 @@ def search(search_key):
     Returns:
         result (list): [['书源', '小说目录url', '小说名称', '作者'], ...]
     """
-    url = 'https://www.69shu.com/modules/pc/search.php'
-    data = 'searchkey={}&searchtype=all&action=%CB%D1%CB%F7'
-    headers = {'Content-Type': 'application/x-www-form-urlencoded'}
+    url = 'https://www.69shu.com/modules/article/search.php'
+    data = 'searchkey={}&searchtype=all'
+    headers = {
+        'Host': 'www.69shu.com',
+        'origin': 'https://www.69shu.com',
+        'content-type': 'application/x-www-form-urlencoded',
+        'user-agent': 'Mozilla/5.0 (Linux; Android 7.0; MI 5s Plus Build/NRD90M; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/88.0.4324.93 Mobile Safari/537.36',
+        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+        'x-requested-with': 'mark.via',
+        'sec-fetch-site': 'same-origin',
+        'sec-fetch-mode': 'navigate',
+        'sec-fetch-user': '?1',
+        'sec-fetch-dest': 'document',
+        'referer': 'https://www.69shu.com/',
+        'accept-encoding': 'gzip, deflate',
+        'accept-language': 'zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7',    
+        'cookie': 'zh_choose=s'
+    }
     try:
         r = requests.post(url, data=data.format(quote(search_key,encoding='gb18030')), headers=headers)
     except:
@@ -26,11 +41,11 @@ def search(search_key):
     except:
         text = r.text.encode(r.encoding).decode()
     soup = BeautifulSoup(text, 'html.parser')
-    results = soup.find_all('div', {'class':"sk_xinxi"})
+    results = soup.find_all('div', {'class':"newnav"})
     result = []
     for node in results:
         title = node.h3.a.text
-        author = node.p.a.text
+        author = node.div.label.text
         url = node.h3.a['href'].split('/')[-1].split('.')[0]
         url = 'https://www.69shu.com/' + url
         # 搜索结果
@@ -97,6 +112,7 @@ def get_content(content_url):
 if __name__ == "__main__":
     # 搜索结果
     data = search("遮天")[0]
+    print(data)
     # 目录
     directory = get_directory(data[1])
     print(len(directory))
