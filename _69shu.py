@@ -140,6 +140,7 @@ def get_content(content_url):
     content = content.replace('<br/>', '\n')
     content = content.replace('<div class="txtnav">   \n \n','')
     content = content.replace('(本章完)','')
+    content = re.sub('\u2003 .*? \n', '\n', content)
     nextpage = re.findall('<a href="(.*?)">下一章</a>', text)
     nextpage = [i for i in nextpage if '.htm' not in i]
     lastpage = re.findall('<a href="(.*?)">上一章</a>', text)
@@ -156,7 +157,7 @@ def get_content(content_url):
 
 if __name__ == "__main__":
     # 搜索结果
-    data = search("遮天")[0]
+    data = search("遮天")[1]
     print(data)
     # 目录...
     directory = get_directory(data[1])
@@ -164,5 +165,5 @@ if __name__ == "__main__":
     url = directory[1][0]
     print(url)
     # 正文
-    result = get_content("https://www.69shu.com/txt/32027/22950103")
+    result = get_content(url)
     print(result)
