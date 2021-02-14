@@ -137,7 +137,7 @@ def get_content(content_url):
     content = re.sub(title, '', content).strip()
     content = re.sub(title.replace(' ',''), '', content).strip()
     content = content.replace('\n','')
-    content = content.replace('<br/>', '\n\n')
+    content = content.replace('<br/>', '\n')
     
     content = content.replace('(本章完)','')
     nextpage = re.findall('<a href="(.*?)">下一章</a>', text)
