@@ -113,7 +113,7 @@ if __name__ == "__main__":
     # 搜索结果
     data = search("遮天")[0]
     print(data)
-    # 目录.
+    # 目录..
     directory = get_directory(data[1])
     print(len(directory))
     url = directory[1][0]
