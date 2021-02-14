@@ -127,6 +127,7 @@ def get_content(content_url):
     soup =BeautifulSoup(text, 'html.parser')
     content = soup.find_all('div', {'class':"txtnav"})[0].prettify()
     content = re.sub('<script>.*?</script>', '', content, re.S)
+    content = re.sub('<div.*?</div>', '', content, re.S)
     content = content.replace('(本章完)','')
     nextpage = re.findall('<a href="(.*?)">下一章</a>', text)
     nextpage = [i for i in nextpage if '.htm' not in i]
