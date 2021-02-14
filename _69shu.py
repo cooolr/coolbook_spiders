@@ -138,7 +138,7 @@ def get_content(content_url):
     content = re.sub(title.replace(' ',''), '', content).strip()
     content = content.replace('\n','')
     content = content.replace('<br/>', '\n')
-    
+    content = content.replace('<div class="txtnav">   \n \n','')
     content = content.replace('(本章完)','')
     nextpage = re.findall('<a href="(.*?)">下一章</a>', text)
     nextpage = [i for i in nextpage if '.htm' not in i]
