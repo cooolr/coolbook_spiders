@@ -126,6 +126,12 @@ def get_content(content_url):
     #content = re.findall('<!--章节内容开始-->(.*?)<!--章节内容结束-->', text, re.S)[0]
     soup =BeautifulSoup(text, 'html.parser')
     content = soup.find_all('div', {'class':"txtnav"})[0].prettify()
+    sub = re.findall('<h1.*?<script>.*?</script>.*?</div>', content,re.S)
+    if sub:
+        content = content.replace(sub[0],'')
+    sub = re.findall('<script>.*?</script>.*?</div>', content,re.S)
+    if sub:
+        content = content.replace(sub[0],'')
     content = re.sub('<script>.*?</script>', '', content, re.S)
     content = re.sub('<div.*?</div>', '', content, re.S)
     content = content.replace('(本章完)','')
