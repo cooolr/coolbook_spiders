@@ -42,6 +42,12 @@ def search(search_key):
         text = r.text.encode(r.encoding).decode()
     soup = BeautifulSoup(text, 'html.parser')
     results = soup.find_all('div', {'class':"newnav"})
+    if not results:
+        url = r.url.split('/')[-1].split('.')[0]
+        title = re.findall('<meta property="og:title" content="(.*?)"/>', text)[0]
+        author = re.findall('<meta property="og:novel:author" content="(.*?)"/>', text)[0]
+        result = [['69shu',url,title,author]]
+        return result
     result = []
     for node in results:
         title = node.h3.a.text
@@ -157,8 +163,9 @@ def get_content(content_url):
 
 if __name__ == "__main__":
     # 搜索结果
-    data = search("遮天")[1]
+    data = search("万族之劫")
     print(data)
+    exit()
     # 目录...
     directory = get_directory(data[1])
     print(len(directory))
